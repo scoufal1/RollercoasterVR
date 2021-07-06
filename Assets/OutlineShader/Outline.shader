@@ -100,7 +100,8 @@ Shader "Hidden/Roystan/Outline Post Process"
 				float normalThreshold01 = saturate((NdotV - _DepthNormalThreshold) / (1 - _DepthNormalThreshold));
 				float normalThreshold = normalThreshold01 * _DepthNormalThresholdScale + 1;
 
-				edgeNormal = edgeNormal > _NormalThreshold ? 1 : 0;
+				//edgeNormal = edgeNormal > _NormalThreshold ? 1 : 0;
+				edgeNormal = edgeNormal > _NormalThreshold ? 0 : 1;
 
 				float depthFiniteDifference0 = depth1 - depth0;
 				float depthFiniteDifference1 = depth3 - depth2;
@@ -108,10 +109,12 @@ Shader "Hidden/Roystan/Outline Post Process"
 
 				float depthThreshold = _DepthThreshold * depth0 * normalThreshold;
 
-				edgeDepth = edgeDepth > depthThreshold ? 1 : 0;	
+				//edgeDepth = edgeDepth > depthThreshold ? 1 : 0;
+				edgeDepth = edgeDepth > depthThreshold ? 0 : 1;	
 				
 
-				float edge = max(edgeDepth, edgeNormal);
+				//float edge = max(edgeDepth, edgeNormal);
+				float edge = min(edgeDepth, edgeNormal);
 
 				float4 edgeColor = float4(_Color.rgb, _Color.a * edge);
 				float4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord);
