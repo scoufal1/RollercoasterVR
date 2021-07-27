@@ -125,18 +125,6 @@ Shader "Hidden/Roystan/Outline Post Process"
 				// https://en.wikipedia.org/wiki/Roberts_cross
 				float edgeDepth = sqrt(pow(depthFiniteDifference0, 2) + pow(depthFiniteDifference1, 2)) * 100;
 
-
-				/*float minDepth = depthThreshold - 0.76;
-				float maxDepth = depthThreshold + 0.76;
-
-				if(edgeDepth < minDepth) {
-					edgeDepth = 1;
-                } else if(edgeDepth > maxDepth) {
-					edgeDepth = 0;
-                } else {
-					edgeDepth = 0.5;
-                }*/
-
 				edgeDepth = edgeDepth > depthThreshold ? 0 : 1;
 
 				float3 normalFiniteDifference0 = normal1 - normal0;
@@ -144,35 +132,32 @@ Shader "Hidden/Roystan/Outline Post Process"
 				// Dot the finite differences with themselves to transform the 
 				// three-dimensional values to scalars.
 				float edgeNormal = sqrt(dot(normalFiniteDifference0, normalFiniteDifference0) + dot(normalFiniteDifference1, normalFiniteDifference1));
-
-				/*float minNormal = _NormalThreshold - _NormalRange;
+				
+				float minNormal = _NormalThreshold - _NormalRange;
 				float maxNormal = _NormalThreshold + _NormalRange;
+
+				float mNormal = -1 / (_NormalRange * 2);
+				float bNormal = -mNormal * maxNormal;
 
 				if(edgeNormal < minNormal) {
 					edgeNormal = 1;
                 } else if(edgeNormal > maxNormal) {
 					edgeNormal = 0;
                 } else {
-					edgeNormal = 0.5;
-                }*/
+					edgeNormal = mNormal * edgeNormal + bNormal;
+                }
 
-				edgeNormal = edgeNormal > _NormalThreshold ? 0 : 1;
+				//edgeNormal = edgeNormal > _NormalThreshold ? 0 : 1;
 				
 				float edge = min(edgeDepth, edgeNormal);
-				/*if(edgeNormal == 0.5 && edge == edgeNormal) {
-					return float4(1,0,0,1);
-                }
-				if(edgeDepth == 0.5 && edge == edgeDepth) {
-					return float4(0,0,1,1);
-                }
-				*/
+
 				return edge;
 
-				float4 edgeColor = float4(_Color.rgb, _Color.a * edge);
+				/*float4 edgeColor = float4(_Color.rgb, _Color.a * edge);
 
 				float4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord);
 
-				return alphaBlend(edgeColor, color);
+				return alphaBlend(edgeColor, color);*/
 			}
             ENDHLSL
         }

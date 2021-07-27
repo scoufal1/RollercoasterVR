@@ -18,8 +18,8 @@ public sealed class PostProcessOutline : PostProcessEffectSettings
     [Tooltip("Scale the strength of how much the depthNormalThreshold affects the depth threshold.")]
     public FloatParameter depthNormalThresholdScale = new FloatParameter { value = 7 };
     [Range(0, 1), Tooltip("Larger values will require the difference between normals to be greater to draw an edge.")]
-    public FloatParameter normalThreshold = new FloatParameter { value = 0.4f };
-    public FloatParameter normalRange = new FloatParameter { value = 0.05f };
+    public FloatParameter normalThreshold = new FloatParameter { value = 0.2f };
+    public FloatParameter normalRange = new FloatParameter { value = 0.2f };
 }
 
 public sealed class PostProcessOutlineRenderer : PostProcessEffectRenderer<PostProcessOutline>

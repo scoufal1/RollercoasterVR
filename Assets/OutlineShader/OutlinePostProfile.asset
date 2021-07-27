@@ -115,7 +115,7 @@ MonoBehaviour:
     value: 7
   normalThreshold:
     overrideState: 0
-    value: 0.4
+    value: 0.2
   normalRange:
     overrideState: 0
-    value: 0.05
+    value: 0.2
